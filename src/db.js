@@ -1,10 +1,13 @@
 //@flow
-
+const pino = require("pino")({
+  enabled: process.env.NODE_ENV !== "test"
+});
 const Datastore = require("nedb");
 
 const PERSISTENT_PATH =
   process.env.NODE_ENV === "test" ? "./data-test.nedb" : "./data-prod.nedb";
 
+pino.info(`Restoring database at ${PERSISTENT_PATH}`);
 const db = new Datastore({ filename: PERSISTENT_PATH, autoload: true });
 
 const findOne = (filters /*: Object */ = {}) =>

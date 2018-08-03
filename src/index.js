@@ -3,6 +3,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const pino = require("pino")({
+  enabled: process.env.NODE_ENV !== "test"
+});
 
 const { insert, dump } = require("./db");
 const { rescan } = require("./ds-api");
@@ -12,21 +15,25 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/webhook", async (req, res, next) => {
+app.post("/webhook", async (req, res, next) => {
+  pino.info("POST /webhook", req.body);
   const message = await webhookHandler(req.body);
   res.json({ success: true, message });
   next();
 });
 
 app.get("/rescan", async (req, res, next) => {
+  pino.info("GET /rescan");
   const message = await rescan();
   res.json({ success: true, message });
   next();
 });
 
 app.get("/dump", async (req, res, next) => {
+  pino.info("GET /dump");
   const message = await dump();
-  res.json(dump);
+  res.json(message);
+  console.log(message);
   next();
 });
 
@@ -37,5 +44,3 @@ app.listen(PORT, function() {
     `CORS-enabled web server listening on port http://127.0.0.1:${PORT}`
   );
 });
-
-dump().then(console.log);
