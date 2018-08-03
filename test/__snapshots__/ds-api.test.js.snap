@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ds-api ds api calls fetchDossier: should use correct url and use process.env 1`] = `
+Object {
+  "dossier": 42,
+}
+`;
+
+exports[`ds-api ds api calls fetchDossiers: should use correct url and use process.env 1`] = `
+Object {
+  "dossiers": Array [
+    Object {
+      "id": 1,
+    },
+    Object {
+      "id": 2,
+    },
+    Object {
+      "id": 3,
+    },
+    Object {
+      "id": 4,
+    },
+    Object {
+      "id": 5,
+    },
+  ],
+  "pagination": Object {
+    "nombre_de_page": 1,
+    "page": 1,
+    "resultats_par_page": 25,
+  },
+}
+`;
+
+exports[`ds-api ds api calls getAllDossiers: should make a single call when single page 1`] = `
+Array [
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+]
+`;
+
+exports[`ds-api ds api calls getAllDossiers: should make multiple calls when multiple page 1`] = `
+Array [
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+  Object {
+    "id": 1,
+  },
+  Object {
+    "id": 2,
+  },
+  Object {
+    "id": 3,
+  },
+  Object {
+    "id": 4,
+  },
+  Object {
+    "id": 5,
+  },
+]
+`;
