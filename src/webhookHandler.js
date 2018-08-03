@@ -1,8 +1,8 @@
 // @flow
 
 const { insert, findOne, update } = require("./db");
-const { fetchDossier } = require("./ds-api");
-const { isBefore, parse } = require("date-fns");
+const { updateDossierLocal } = require("./ds-api");
+
 /*::
 
 type DsState = "CLOSED" | "OPENED";
@@ -19,29 +19,14 @@ type WebhookResult = {
 };
 
 */
-
-/**
- * @param {number} a
- * @param {number} b
- * @return {number}
- */
-
-const isOutDated = (date1, date2) => isBefore(parse(date1), parse(date2));
-
 const webhookHandler = async (
   payload /*: WebhookInput */
 ) /*: Promise<WebhookResult> */ => {
   const { procedure_id, dossier_id, state, updated_at } = payload;
-  const dossierLocal = await findOne({ "dossier.id": dossier_id });
-  if (!dossierLocal) {
-    const dossierRemote = await fetchDossier(dossier_id);
-    const ins = await insert(dossierRemote);
-  } else if (isOutDated(dossierLocal.dossier.updated_at, updated_at)) {
-    const dossierRemote = await fetchDossier(dossier_id);
-    const updt = await update({ "dossier.id": dossier_id }, dossierRemote);
-  } else {
-    // dossier didnt change, skip
-  }
+  const updated = await updateDossierLocal({
+    id: dossier_id,
+    updated_at
+  });
   return { success: true, message: "ok" };
 };
 

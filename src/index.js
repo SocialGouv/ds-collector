@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const { insert, dump } = require("./db");
+const { rescan } = require("./ds-api");
 const webhookHandler = require("./webhookHandler");
 
 const app = express();
