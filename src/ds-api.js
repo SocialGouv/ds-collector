@@ -11,7 +11,8 @@ const range = (length /*: number */) => Array.from({ length }, (_, v) => v);
 const flatten = (arr /*: Array<any> */) /*: Array<any> */ =>
   arr.reduce((a, c) => [...a, ...c], []);
 
-const DS_API_URL = process.env.DS_API_URL || "http://test";
+const DS_API_URL =
+  process.env.DS_API_URL || "https://www.demarches-simplifiees.fr";
 const DS_ID_PROCEDURE = process.env.DS_ID_PROCEDURE || 1;
 const DS_TOKEN = process.env.DS_TOKEN || "invalidToken";
 

@@ -4,11 +4,13 @@ const pino = require("pino")({
 });
 const Datastore = require("nedb");
 
-const PERSISTENT_PATH =
-  process.env.NODE_ENV === "test" ? "./data-test.nedb" : "./data-prod.nedb";
+const DB_PATH =
+  process.env.NODE_ENV === "test"
+    ? "./data-test.nedb"
+    : process.env.DB_PATH || "./data.nedb";
 
-pino.info(`Restoring database at ${PERSISTENT_PATH}`);
-const db = new Datastore({ filename: PERSISTENT_PATH, autoload: true });
+pino.info(`Restoring database at ${DB_PATH}`);
+const db = new Datastore({ filename: DB_PATH, autoload: true });
 
 const findOne = (filters /*: Object */ = {}) =>
   new Promise((resolve, reject) => {

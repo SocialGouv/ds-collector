@@ -22,6 +22,7 @@ app.post("/webhook", async (req, res, next) => {
   next();
 });
 
+// todo: secure to prevent DoS
 app.get("/rescan", async (req, res, next) => {
   pino.info("GET /rescan");
   const message = await rescan();
@@ -29,13 +30,12 @@ app.get("/rescan", async (req, res, next) => {
   next();
 });
 
-app.get("/dump", async (req, res, next) => {
-  pino.info("GET /dump");
-  const message = await dump();
-  res.json(message);
-  console.log(message);
-  next();
-});
+// app.get("/dump", async (req, res, next) => {
+//   pino.info("GET /dump");
+//   const message = await dump();
+//   res.json(message);
+//   next();
+// });
 
 const PORT = process.env.PORT || 3005;
 
