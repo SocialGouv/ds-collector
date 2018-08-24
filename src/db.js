@@ -1,16 +1,29 @@
 //@flow
-const pino = require("pino")({
-  enabled: process.env.NODE_ENV !== "test"
-});
 const Datastore = require("nedb");
+const { differenceInDays, format } = require("date-fns");
+
+const log = require("./log");
 
 const DB_PATH =
   process.env.NODE_ENV === "test"
-    ? "./data-test.nedb"
-    : process.env.DB_PATH || "./data.nedb";
+    ? "./data/test.nedb"
+    : process.env.DB_PATH || "./data/prod.nedb";
 
-pino.info(`Restoring database at ${DB_PATH}`);
+log.info(`Restoring database at ${DB_PATH}`);
+
 const db = new Datastore({ filename: DB_PATH, autoload: true });
+
+const find = (filters /*: Object */ = {}, sort /*: Object */ = {}) =>
+  new Promise((resolve, reject) => {
+    db.find(filters)
+      .sort(sort)
+      .exec((err, doc) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(doc);
+      });
+  });
 
 const findOne = (filters /*: Object */ = {}) =>
   new Promise((resolve, reject) => {
@@ -64,6 +77,7 @@ const clear = () =>
 
 module.exports = {
   insert,
+  find,
   findOne,
   dump,
   clear,
