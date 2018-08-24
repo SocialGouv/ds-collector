@@ -2,6 +2,7 @@
 
 const { insert, findOne, update } = require("./db");
 const { updateDossierLocal } = require("./ds-api");
+const log = require("./log");
 
 /*::
 
