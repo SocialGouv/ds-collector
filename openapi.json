@@ -1,0 +1,13 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "servers": [{ "url": "http://api-demo.ds-collector.com" }],
+    "info": {
+      "title": "ds-collector API",
+      "version": "1.0.0",
+      "description": "Documentation de l'API ds-collector. Les paramètres `filters` et `sort` suivent l'API [NeDB](https://github.com/louischatriot/nedb)."
+    },
+    "basePath": "/"
+  },
+  "apis": ["./src/index.js"]
+}
