@@ -3,12 +3,8 @@
 module.exports = {
   env: {
     browser: false,
-    commonjs: true,
-    es6: true,
     node: true,
-    mocha: true,
-    jest: true
-    //   "jest/globals": true
+    "jest/globals": true
   },
   extends: [
     "eslint:recommended",
@@ -16,11 +12,7 @@ module.exports = {
     "plugin:jest/recommended"
   ],
   parserOptions: {
-    ecmaVersion: 7,
-    ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-      jsx: true
-    },
+    ecmaVersion: 2018,
     sourceType: "module"
   },
   plugins: ["prettier", "jest"],

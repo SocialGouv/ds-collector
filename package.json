@@ -1,31 +1,32 @@
 {
-  "name": "ds-catcher",
-  "version": "1.0.0",
+  "name": "ds-collector",
+  "version": "1.0.1",
   "author": "Julien Bouquillon <julien.bouquillon@sg.social.gouv.fr>",
   "license": "MIT",
   "main": "./src",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SocialGouv/ds-catcher.git"
+    "url": "git+https://github.com/SocialGouv/ds-collector.git"
   },
-  "homepage": "https://SocialGouv.github.io/ds-catcher/",
+  "homepage": "https://SocialGouv.github.io/ds-collector/",
   "bugs": {
-    "url": "https://github.com/SocialGouv/ds-catcher/issues"
+    "url": "https://github.com/SocialGouv/ds-collector/issues"
   },
   "dependencies": {
     "cors": "^2.8.4",
     "date-fns": "^1.29.0",
     "express": "^4.16.3",
+    "lodash.get": "^4.4.2",
     "nedb": "^1.8.0",
     "node-fetch": "^2.2.0",
     "pino": "^4.17.6",
     "promise-serial-exec": "^1.0.0",
-    "rm": "^0.1.8"
+    "swagger-jsdoc": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^5.2.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-jest": "^21.18.0",
+    "eslint-plugin-jest": "^21.21.0",
     "eslint-plugin-prettier": "^2.6.2",
     "jest": "^23.4.2",
     "jest-cli": "^23.4.2",
@@ -42,6 +43,6 @@
   },
   "scripts": {
     "start": "node ./src",
-    "test": "rm data-test.nedb &2>1 && jest"
+    "test": "rm data/test.nedb || true && jest --runInBand"
   }
 }
