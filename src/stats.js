@@ -2,14 +2,14 @@ const get = require("lodash.get");
 const { format, differenceInDays } = require("date-fns");
 
 // https://github.com/betagouv/tps/blob/58ce66/app/serializers/dossier_serializer.rb#L38-L53
-const DS_STATUSES = [
-  "draft",
-  "initiated",
-  "received",
-  "closed",
-  "refused",
-  "without_continuation"
-];
+const DS_STATUSES = {
+  draft: "Brouillon",
+  initiated: "En construction",
+  received: "En instruction",
+  closed: "Accepté",
+  refused: "Refusé",
+  without_continuation: "Sans suite"
+};
 
 // filter out valid status used to compute procedure duration
 const DS_STATUSES_COMPLETED = ["closed", "refused", "without_continuation"];
@@ -27,8 +27,11 @@ const getEmptyStatData = () => ({
   // we store each duration to compute the real average duration based on all values
   durations: [],
   // we init each possible status
-  status: DS_STATUSES.reduce(
-    (statuses, status) => ({ ...statuses, [status]: 0 }),
+  status: Object.keys(DS_STATUSES).reduce(
+    (statuses, status) => ({
+      ...statuses,
+      [status]: { count: 0, label: DS_STATUSES[status] }
+    }),
     {}
   )
 });
@@ -41,7 +44,7 @@ const computeDailyStats = docs => {
       days[day] = getEmptyStatData();
     }
     days[day].count += 1;
-    days[day].status[doc.dossier.state] += 1;
+    days[day].status[doc.dossier.state].count += 1;
     // compute duration for closed docs
     if (DS_STATUSES_COMPLETED.indexOf(doc.dossier.state) > -1) {
       days[day].durations.push(computeDuration(doc));
@@ -70,7 +73,8 @@ const computeMonthlyStats = dailyStats => {
       ...dailyStats[day].durations
     ];
     Object.keys(dailyStats[day].status).forEach(status => {
-      months[month].status[status] += dailyStats[day].status[status];
+      months[month].status[status].count +=
+        dailyStats[day].status[status].count;
     });
     return months;
   }, {});
@@ -92,15 +96,18 @@ const computeTotalStats = monthlyStats => {
       Object.keys(monthlyStats).map(month => monthlyStats[month].count)
     ),
     duration: allDurations.length ? sum(allDurations) / allDurations.length : 0,
-    status: DS_STATUSES.reduce(
-      (statuses, status) => ({ ...statuses, [status]: 0 }),
+    status: Object.keys(DS_STATUSES).reduce(
+      (statuses, status) => ({
+        ...statuses,
+        [status]: { count: 0, label: DS_STATUSES[status] }
+      }),
       {}
     )
   };
   // compute status count
   Object.keys(monthlyStats).forEach(month => {
     Object.keys(allStats.status).forEach(status => {
-      allStats.status[status] += monthlyStats[month].status[status];
+      allStats.status[status].count += monthlyStats[month].status[status].count;
     });
   });
   return allStats;
