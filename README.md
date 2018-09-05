@@ -1,4 +1,4 @@
-# ds-collector
+# ds-collector [![CircleCI](https://circleci.com/gh/SocialGouv/ds-collector.svg?style=svg)](https://circleci.com/gh/SocialGouv/ds-collector)
 
 service autonome qui :
 
