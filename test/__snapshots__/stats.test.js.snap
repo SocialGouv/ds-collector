@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stats getStats should compute correct stats 1`] = `
+Object {
+  "count": 10,
+  "daily": Object {
+    "2017-01-17": Object {
+      "count": 1,
+      "duration": 0,
+      "durations": Array [],
+      "status": Object {
+        "closed": 0,
+        "draft": 1,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2017-05-07": Object {
+      "count": 1,
+      "duration": 428,
+      "durations": Array [
+        428,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2018-01-17": Object {
+      "count": 2,
+      "duration": 52.5,
+      "durations": Array [
+        23,
+        82,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 1,
+        "without_continuation": 0,
+      },
+    },
+    "2018-02-12": Object {
+      "count": 1,
+      "duration": 25,
+      "durations": Array [
+        25,
+      ],
+      "status": Object {
+        "closed": 0,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 1,
+        "without_continuation": 0,
+      },
+    },
+    "2018-02-21": Object {
+      "count": 1,
+      "duration": 16,
+      "durations": Array [
+        16,
+      ],
+      "status": Object {
+        "closed": 0,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 1,
+      },
+    },
+    "2018-03-27": Object {
+      "count": 1,
+      "duration": 13,
+      "durations": Array [
+        13,
+      ],
+      "status": Object {
+        "closed": 0,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 1,
+      },
+    },
+    "2018-05-01": Object {
+      "count": 1,
+      "duration": 39,
+      "durations": Array [
+        39,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2018-05-02": Object {
+      "count": 1,
+      "duration": 69,
+      "durations": Array [
+        69,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2018-05-17": Object {
+      "count": 1,
+      "duration": 23,
+      "durations": Array [
+        23,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+  },
+  "duration": 79.77777777777777,
+  "monthly": Object {
+    "2017-01": Object {
+      "count": 1,
+      "duration": 0,
+      "durations": Array [],
+      "status": Object {
+        "closed": 0,
+        "draft": 1,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2017-05": Object {
+      "count": 1,
+      "duration": 428,
+      "durations": Array [
+        428,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+    "2018-01": Object {
+      "count": 2,
+      "duration": 52.5,
+      "durations": Array [
+        23,
+        82,
+      ],
+      "status": Object {
+        "closed": 1,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 1,
+        "without_continuation": 0,
+      },
+    },
+    "2018-02": Object {
+      "count": 2,
+      "duration": 20.5,
+      "durations": Array [
+        25,
+        16,
+      ],
+      "status": Object {
+        "closed": 0,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 1,
+        "without_continuation": 1,
+      },
+    },
+    "2018-03": Object {
+      "count": 1,
+      "duration": 13,
+      "durations": Array [
+        13,
+      ],
+      "status": Object {
+        "closed": 0,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 1,
+      },
+    },
+    "2018-05": Object {
+      "count": 3,
+      "duration": 43.666666666666664,
+      "durations": Array [
+        23,
+        39,
+        69,
+      ],
+      "status": Object {
+        "closed": 3,
+        "draft": 0,
+        "initiated": 0,
+        "received": 0,
+        "refused": 0,
+        "without_continuation": 0,
+      },
+    },
+  },
+  "status": Object {
+    "closed": 5,
+    "draft": 1,
+    "initiated": 0,
+    "received": 0,
+    "refused": 2,
+    "without_continuation": 2,
+  },
+}
+`;
+
+exports[`stats getStats should return aggregated libelle values 1`] = `
+Object {
+  "hello": 5,
+  "hello2": 4,
+  "hello3": 1,
+}
+`;
