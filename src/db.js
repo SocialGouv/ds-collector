@@ -4,10 +4,7 @@ const { differenceInDays, format } = require("date-fns");
 
 const log = require("./log");
 
-const DB_PATH =
-  process.env.NODE_ENV === "test"
-    ? "./data/test.nedb"
-    : process.env.DB_PATH || "./data/prod.nedb";
+const DB_PATH = `data/${process.env.NODE_ENV || "development"}.nedb`;
 
 log.info(`Restoring database at ${DB_PATH}`);
 
