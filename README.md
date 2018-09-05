@@ -5,7 +5,7 @@ service autonome qui :
 - récupère tous les dossiers d'une procédure demarches-simplifiees
 - stocke les dossiers en local dans [NeDB](https://github.com/louischatriot/nedb)
 - fournit un webhook pour mise à jour des dossiers
-- fournit une API pour récupérer des informations sur les dossiers
+- fournit une [API](https://socialgouv.github.io/ds-collector/) pour récupérer des informations sur les dossiers
 - fournit une UI minimale pour voir consulter les statistiques
 
 ## Usage
@@ -43,7 +43,7 @@ Une fois lancé, le service crée un fichier `./data/[DS_ID_PROCEDURE].nedb` qui
 
 ## API
 
-Voir la doc openapi sur `/doc`
+Voir la doc openapi sur [socialgouv.github.io/ds-collector/](https://socialgouv.github.io/ds-collector/)
 
 ## Variables d'environnement
 
