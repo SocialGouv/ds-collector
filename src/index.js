@@ -12,7 +12,10 @@ const { find, insert, dump } = require("./db");
 const { getStats, aggregate } = require("./stats");
 const { rescan } = require("./ds-api");
 const webhookHandler = require("./webhookHandler");
+const tokenMiddleware = require("./tokenMiddleware");
 const asyncMiddleware = require("./asyncMiddleware");
+
+const isJson = req => req.headers["accept"] === "application/json";
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,6 +29,29 @@ app.get("/doc/api-docs.json", function(req, res) {
 });
 
 app.use("/doc", express.static("./doc"));
+
+/*
+ * @swagger
+ * /:
+ *   get:
+ *     description: get API version or default UI
+ *     produces:
+ *       - application/json
+ *       - text/html
+ */
+app.get("/", (req, res, next) => {
+  log.info("GET /");
+  if (isJson(req)) {
+    res.json({
+      success: true,
+      version: pkg.version,
+      NODE_ENV: process.env.NODE_ENV
+    });
+  }
+  next();
+});
+
+app.use("/", express.static("./public"));
 
 /**
  * @swagger
@@ -68,7 +94,7 @@ app.use("/doc", express.static("./doc"));
  *             - type: array
  *             - type: object
  *     AggregateResponse:
- *       description: aggregation data response
+ *       description: réponse de /aggregate
  *       type: object
  *       properties:
  *         success:
@@ -76,11 +102,70 @@ app.use("/doc", express.static("./doc"));
  *           value: true
  *         result:
  *           type: object
+ *           description: total par libéllé
+ *           properties:
+ *             key:
+ *               type: string
+ *               description: libéllé
+ *             value:
+ *               type: number
+ *               description: nombre total
+ *     BasicStatResult:
+ *       type: object
+ *       properties:
+ *         count:
+ *            type: number
+ *            description: nombre total de dossiers
+ *         duration:
+ *            type: number
+ *            description: durée moyenne de traitement
+ *         status:
+ *            type: object
+ *            description: total par statut
+ *     StatResult:
+ *       description: "renvoie un object avec `{[date]: StatResult}`"
+ *       type: object
+ *       properties:
+ *         key:
+ *           type: string
+ *           description: the date key
+ *           example: 2018-05-20 or 2018-05
+ *         value:
+ *           $ref: '#/components/schemas/BasicStatResult'
+ *     StatsResult:
+ *       summary: données de /stats
+ *       type: object
+ *       properties:
+ *         count:
+ *           type: number
+ *           description: nombre total de dossiers
+ *         duration:
+ *           type: number
+ *           description: durée moyenne de traitement
+ *         status:
+ *           type: object
+ *           description: total par statut
+ *         daily:
+ *           description: détail par jour
+ *           $ref: '#/components/schemas/StatResult'
+ *         monthly:
+ *           description: détail par mois
+ *           $ref: '#/components/schemas/StatResult'
+ *     StatsResponse:
+ *       description: réponse de /stats
+ *       type: object
+ *       properties:
+ *         success:
+ *           type: boolean
+ *           value: true
+ *         result:
+ *           $ref: '#/components/schemas/StatsResult'
  *
  * @swagger
  * /webhook:
  *   post:
- *     description: DS webhook endpoint
+ *     summary: DS webhook endpoint
+ *     description: receives the webhook payload
  *     requestBody:
  *       $ref: '#/components/requestBodies/WebhookInput'
  *     produces:
@@ -101,6 +186,49 @@ app.post(
     next();
   })
 );
+
+// todo: validate + sanitize input
+/**
+ * @swagger
+ * /stats:
+ *   get:
+ *     summary: fetch global stats
+ *     description: return total and aggregated data for daily, monthly usage stats..
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: query
+ *         name: from
+ *         description: return stats for dossiers starting from this date.
+ *         required: false
+ *         schema:
+ *           type: string
+ *         example: "2017-01-01"
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/StatsResponse'
+ */
+app.get(
+  "/stats",
+  asyncMiddleware(async (req, res, next) => {
+    log.info("GET /stats");
+    const sixMonthsAgo = format(subMonths(new Date(), 6));
+    const startDate = req.query.from || sixMonthsAgo;
+    const docs = await find(
+      { "dossier.created_at": { $gte: startDate } },
+      { "dossier.created_at": 1 }
+    );
+    res.json({ success: true, result: getStats(docs) });
+    next();
+  })
+);
+
+/* ------ PROTECTED ROUTES */
+
+app.use(tokenMiddleware);
 
 // todo: secure to prevent DoS
 /**
@@ -127,49 +255,11 @@ app.get(
   })
 );
 
-// todo: validate + sanitize input
-/**
- * @swagger
- * /stats:
- *   get:
- *     description: fetch global stats
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: query
- *         name: from
- *         description: return stats for dossiers starting from this date.
- *         required: false
- *         schema:
- *           type: string
- *         example: "2017-01-01"
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SuccessResponse'
- */
-app.get(
-  "/stats",
-  asyncMiddleware(async (req, res, next) => {
-    log.info("GET /stats");
-    const sixMonthsAgo = format(subMonths(new Date(), 6));
-    const startDate = req.query.from || sixMonthsAgo;
-    const docs = await find(
-      { "dossier.created_at": { $gte: startDate } },
-      { "dossier.created_at": 1 }
-    );
-    res.json({ success: true, result: getStats(docs) });
-    next();
-  })
-);
-
 /**
  * @swagger
  * /aggregate:
  *   get:
- *     description: get aggregated stats for a given champ libelle
+ *     summary: get aggregated stats for a given champ libelle
  *     produces:
  *       - application/json
  *     parameters:
@@ -248,6 +338,7 @@ app.get(
   "/dump",
   asyncMiddleware(async (req, res, next) => {
     log.info("GET /dump");
+    log.debug(req.query);
     const docs = await find(
       req.query.filters ? JSON.parse(req.query.filters) : {},
       req.query.sort ? JSON.parse(req.query.sort) : {}
@@ -257,29 +348,15 @@ app.get(
   })
 );
 
-/*
- * @swagger
- * /:
- *   get:
- *     description: get API version
- *     produces:
- *       - application/json
- */
-app.get("/", (req, res, next) => {
-  log.info("GET /");
-  res.json({
-    success: true,
-    version: pkg.version,
-    NODE_ENV: process.env.NODE_ENV
-  });
-  next();
-});
-
 const PORT = process.env.PORT || 3005;
 
-app.listen(PORT, function() {
-  console.log(
-    `CORS-enabled web server listening on port http://127.0.0.1:${PORT} [${process
-      .env.NODE_ENV || "development"}]`
-  );
-});
+if (require.main === module) {
+  app.listen(PORT, function() {
+    log.info(
+      `CORS-enabled web server listening on port http://127.0.0.1:${PORT} [${process
+        .env.NODE_ENV || "development"}]`
+    );
+  });
+}
+
+module.exports = app;

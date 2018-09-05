@@ -6,6 +6,7 @@ service autonome qui :
 - stocke les dossiers en local dans [NeDB](https://github.com/louischatriot/nedb)
 - fournit un webhook pour mise à jour des dossiers
 - fournit une API pour récupérer des informations sur les dossiers (cors-enabled)
+- fournit une UI minimale pour voir consulter les statistiques
 
 ## Usage
 
@@ -34,18 +35,14 @@ docker run -d \
 
 ## API
 
-See the swagger documentation at `/doc`
-
-## Todo
-
-- Dockerify
-- API swagger
+Voir la doc openapi sur `/doc`
 
 ## Variables d'environnement
 
 | variable          | valeur                                               | defaut                               |
 | ----------------- | ---------------------------------------------------- | ------------------------------------ |
 | `PORT`            | webserver port                                       | 3005                                 |
+| `TOKEN`           | token to access the API via `authorization` header   | random                               |
 | `DB_PATH`         | chemin vers le fichier de persistance                | `./data.nedb`                        |
 | `DS_API_URL`      | URL de l'API demarches-simplifiees                   | https://www.demarches-simplifiees.fr |
 | `DS_TOKEN`        | Token API demarches-simplifiees                      |

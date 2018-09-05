@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
+    <title>ds-collector - Statistiques</title>
+    <!-- Reprise du thème de https://github.com/SocialGouv/work-in-france -->
+    <link rel="stylesheet" href="static/css/bundle.css?bust=429691505847" type="text/css">
+<style>
+/* Hack to display 0 values along x-axis in red. */
+.dossiers-by-day svg > g > g.dataset-units > circle[cy='180'] {
+    fill: #d1335b !important;
+}
+
+</style>
+
+</head>
+<body>
+
+    <nav aria-label="page" id="skip-links">
+        <a href="#skip-to-main">Contenu principal</a>
+        <a href="#skip-to-footer">Pied de page</a>
+    </nav>
+
+    <header class="site-header">
+        <nav>
+            <div class="site-header-logos">
+                <a class="site-logo" href="index.html">ds-collector</a>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <main id="skip-to-main">
+
+        <section class="section-white stats-loading">
+            <div class="center">
+                <div class="spinner">Chargement...</div>
+            </div>
+        </section>
+
+        <div class="stats-container">
+
+            <section class="section-white">
+                <h3>Statistiques</h3>
+                <div class="statistiques-resume">
+                  <div class="box-bordered">
+                    <div>Nombre de dossiers déposés</div>
+                    <div class="total-dossiers"></div>
+                  </div>
+                  <div class="box-bordered">
+                    <div>Nombre de dossiers acceptés </div>
+                    <div class="total-dossiers-closed"></div>
+                  </div>
+                  <div class="box-bordered">
+                    <div>Temps de traitement moyen</div>
+                    <div class="time-to-process"></div>
+                  </div>
+                </div>
+            </section>
+
+            <section class="section-white">
+                <h4>
+                    Nombre de dossiers déposés par jour
+                </h4>
+                <div class="dossiers-by-day"></div>
+                <p>Statistiques calculées sur les 31 derniers jours</p>
+            </section>
+
+            <section class="section-white">
+                <h4>
+                    Nombre de dossiers déposés par mois
+                </h4>
+                <div class="dossiers-by-month"></div>
+                <p>Statistiques calculées sur les 365 derniers jours</p>
+            </section>
+
+            <section class="section-white">
+                <h4>Évolution du temps de traitement moyen par mois</h4>
+                <div class="time-to-process-by-month"></div>
+            </section>
+
+            <section class="section-white">
+                <h4>Répartition des dossiers par statut</h4>
+                <div class="dossiers-by-status"></div>
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+<script src="static/js/frappe-charts.1.1.0.js"></script>
+<script>
+
+    let jsonUrl = '/stats';
+    let loaderElem = document.querySelector('.stats-loading');
+    let statsElem = document.querySelector('.stats-container');
+    statsElem.style.display = 'none';
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function () {
+      if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+          showStatsCallback(this.response);
+        } else {
+          console.log('Unable to load stats.json from', jsonUrl);
+        }
+      }
+    };
+    xhr.open('GET', jsonUrl, true);
+    xhr.send(null);
+
+    const dateSort = (a, b) => {
+      if (new Date(a) < new Date(b)) return -1;
+      if (new Date(a) > new Date(b)) return 1;
+      return 0;
+    }
+
+    const getFrappeLineData = ({values, map}) =>  ({
+        'labels': Object.keys(values).sort(dateSort).map(frenchDate),
+        'datasets':[
+          {
+            'values': Object.keys(values).sort(dateSort).map(map)
+          }
+        ]
+    })
+
+    const getFrappePieData = ({values, map}) =>  ({
+        'labels': Object.keys(values).map(k => values[k].label),
+        'datasets':[
+          {
+            'values': Object.keys(values).map(k => values[k].count)
+          }
+        ]
+    })
+
+    const STATUS_COLOR = {
+      'Brouillon': 'dark-grey',
+      'En construction': 'light-grey',
+      'En instruction': 'yellow',
+      'Accepté': 'green',
+      'Refusé': 'red',
+      'Sans suite': 'dark-grey',
+    }
+
+    const getColorsFromData = data => data.labels.map(label => STATUS_COLOR[label] || 'green')
+
+    const frenchDate = date => date.split('-').reverse().join('/')
+
+    const pluralize = (value, label) => value > 0 ? value + ' ' + label + ((value > 1) && 's' || '') : '-'
+
+    const getBasicFrappeTooltip = label => ({
+        formatTooltipX: d => (d + '').toUpperCase(),
+        formatTooltipY: d => pluralize(d, label)
+    })
+
+    let showStatsCallback = function (json) {
+
+        loaderElem.style.display = 'none';
+        statsElem.style.display = 'block';
+
+        document.querySelector('.total-dossiers').innerHTML = json.result.count;
+        document.querySelector('.total-dossiers-closed').innerHTML = json.result.status.closed.count;
+        document.querySelector('.time-to-process').innerHTML = pluralize(parseInt(json.result.duration), 'jour');
+
+        new frappe.Chart('.dossiers-by-day', {
+            data: getFrappeLineData({
+                values: json.result.daily,
+                map: key => json.result.daily[key].count,
+                isDate: true
+            }),
+            type: 'line',
+            height: 250,
+            tooltipOptions: getBasicFrappeTooltip('dossier'),
+            colors: ['#006cb0'],
+        });
+        new frappe.Chart('.dossiers-by-month', {
+            data: getFrappeLineData({
+                values: json.result.monthly,
+                map: key => json.result.monthly[key].count,
+                isDate: true
+            }),
+            type: 'line',
+            height: 250,
+            tooltipOptions: getBasicFrappeTooltip('dossier'),
+            colors: ['#006cb0'],
+        });
+        new frappe.Chart('.time-to-process-by-month', {
+            data: getFrappeLineData({
+                values: json.result.monthly,
+                map: key => json.result.monthly[key].duration,
+                isDate: true
+            }),
+            type: 'bar',
+            height: 250,
+            tooltipOptions: getBasicFrappeTooltip('jour'),
+            colors: ['#006cb0'],
+        });
+        const pieData = getFrappePieData({
+            values: json.result.status
+        });
+        new frappe.Chart('.dossiers-by-status', {
+            data: pieData,
+            type: 'percentage',
+            colors: getColorsFromData(pieData),
+            tooltipOptions: getBasicFrappeTooltip('dossier'),
+            barOptions: {
+              height: 40
+            },
+        });
+
+    };
+
+</script>
+
+
+</body>
+</html>

@@ -37,9 +37,13 @@
     "collectCoverage": true,
     "notify": true,
     "verbose": true,
-    "collectCoverageFrom": ["src/*.js"],
+    "collectCoverageFrom": [
+      "src/*.js"
+    ],
     "testEnvironment": "node",
-    "setupFiles": ["./setupJest.js"]
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   },
   "scripts": {
     "start": "node ./src",
