@@ -1,5 +1,7 @@
 // @flow
+const path = require("path");
 const express = require("express");
+const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
 const swaggerJSDoc = require("swagger-jsdoc");
 const cors = require("cors");
@@ -18,6 +20,7 @@ const asyncMiddleware = require("./asyncMiddleware");
 const isJson = req => req.headers["accept"] === "application/json";
 
 const app = express();
+app.use(favicon(path.join(__dirname, "..", "public", "static", "favicon.ico")));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -183,7 +186,6 @@ app.post(
     log.info("POST /webhook", req.body);
     const result = await webhookHandler(req.body);
     res.json({ success: true, result });
-    next();
   })
 );
 
@@ -222,7 +224,6 @@ app.get(
       { "dossier.created_at": 1 }
     );
     res.json({ success: true, result: getStats(docs) });
-    next();
   })
 );
 
@@ -250,8 +251,7 @@ app.get(
   asyncMiddleware(async (req, res, next) => {
     log.info("GET /rescan");
     const result = await rescan();
-    res.json({ success: true, result });
-    next();
+    res.json({ success: true, result: result.length });
   })
 );
 
@@ -300,7 +300,6 @@ app.get(
       req.query.sort ? JSON.parse(req.query.sort) : {}
     );
     res.json({ success: true, result: aggregate(docs, req.query.libelle) });
-    next();
   })
 );
 
@@ -344,7 +343,6 @@ app.get(
       req.query.sort ? JSON.parse(req.query.sort) : {}
     );
     res.json({ success: true, result: docs });
-    next();
   })
 );
 

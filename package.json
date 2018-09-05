@@ -21,6 +21,7 @@
     "node-fetch": "^2.2.0",
     "pino": "^4.17.6",
     "promise-serial-exec": "^1.0.0",
+    "serve-favicon": "^2.5.0",
     "swagger-jsdoc": "^3.0.2"
   },
   "devDependencies": {
