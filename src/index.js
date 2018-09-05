@@ -3,12 +3,9 @@ const path = require("path");
 const express = require("express");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
-const swaggerJSDoc = require("swagger-jsdoc");
 const cors = require("cors");
 const { format, subMonths } = require("date-fns");
 
-const openapiData = require("../openapi.json");
-const pkg = require("../package.json");
 const log = require("./log");
 const { find, insert, dump } = require("./db");
 const { getStats, aggregate } = require("./stats");
@@ -16,6 +13,7 @@ const { rescan } = require("./ds-api");
 const webhookHandler = require("./webhookHandler");
 const tokenMiddleware = require("./tokenMiddleware");
 const asyncMiddleware = require("./asyncMiddleware");
+const openApiDoc = require("./openApiDoc");
 
 const isJson = req => req.headers["accept"] === "application/json";
 
@@ -26,9 +24,8 @@ app.use(cors());
 
 // for API documentation
 app.get("/doc/api-docs.json", function(req, res) {
-  openapiData.definition.info.version = pkg.version;
   res.setHeader("Content-Type", "application/json");
-  res.send(swaggerJSDoc(openapiData));
+  res.send(openApiDoc());
 });
 
 app.use("/doc", express.static("./doc"));
