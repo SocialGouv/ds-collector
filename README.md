@@ -6,7 +6,9 @@ service autonome qui :
 - stocke les dossiers en local dans [NeDB](https://github.com/louischatriot/nedb)
 - fournit un webhook pour mise à jour des dossiers
 - fournit une [API](https://socialgouv.github.io/ds-collector/) pour récupérer des informations sur les dossiers
-- fournit une UI minimale pour voir consulter les statistiques
+- fournit une UI minimale pour consulter les statistiques
+
+![screenshot stats](./ds-collector.png)
 
 ## Usage
 
