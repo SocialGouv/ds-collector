@@ -22,7 +22,8 @@ module.exports = {
     beforeEach: true,
     afterEach: true,
     before: true,
-    after: true
+    after: true,
+    expect: true
   },
   rules: {
     "prettier/prettier": "error",
