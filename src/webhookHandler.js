@@ -6,7 +6,7 @@ const log = require("./log");
 
 /*::
 
-type DsState = "CLOSED" | "OPENED";
+type DsState = "brouillon" | "en_construction" | "en_instruction" | "accepte" | "refuse" | "sans_suite"
 
 type WebhookInput = {
   procedure_id: number,

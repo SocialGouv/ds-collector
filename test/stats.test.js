@@ -1,3 +1,6 @@
+process.env.DS_API_URL = "http://fakeApi.com";
+process.env.DS_ID_PROCEDURE = "4212";
+
 const { insert, find, clear } = require("../src/db");
 const { getStats, aggregate } = require("../src/stats");
 

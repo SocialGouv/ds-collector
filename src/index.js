@@ -20,6 +20,7 @@ const isJson = req => req.headers["accept"] === "application/json";
 const app = express();
 app.use(favicon(path.join(__dirname, "..", "public", "static", "favicon.ico")));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(cors());
 
 // for API documentation
@@ -77,7 +78,7 @@ app.use("/", express.static("./public"));
  *           example: 2873
  *         state:
  *           type: string
- *           enum: [draft, initiated, received, closed, refused, without_continuation]
+ *           enum: [brouillon, en_construction, en_instruction, accepte, refuse, sans_suite]
  *         updated_at:
  *           type: string
  *           format: date-time
