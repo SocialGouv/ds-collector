@@ -78,6 +78,14 @@
             </section>
 
             <section class="section-white">
+                <h4>
+                    Nombre d'autorisation délivrées par mois
+                </h4>
+                <div class="dossiers-accepted-by-month"></div>
+                <p>Statistiques calculées sur les 365 derniers jours</p>
+            </section>
+
+            <section class="section-white">
                 <h4>Évolution du temps de traitement moyen par mois</h4>
                 <div class="time-to-process-by-month"></div>
             </section>
@@ -152,7 +160,7 @@
 
     const frenchDate = date => date.split('-').reverse().join('/')
 
-    const pluralize = (value, label) => value > 0 ? value + ' ' + label + ((value > 1) && 's' || '') : '-'
+    const pluralize = (value, label) => value > 0 ? (parseInt(value*100, 10)/100) + ' ' + label + ((value > 1) && 's' || '') : '-'
 
     const getBasicFrappeTooltip = label => ({
         formatTooltipX: d => (d + '').toUpperCase(),
@@ -183,6 +191,17 @@
             data: getFrappeLineData({
                 values: json.result.monthly,
                 map: key => json.result.monthly[key].count,
+                isDate: true
+            }),
+            type: 'line',
+            height: 250,
+            tooltipOptions: getBasicFrappeTooltip('dossier'),
+            colors: ['#006cb0'],
+        });
+        new frappe.Chart('.dossiers-accepted-by-month', {
+            data: getFrappeLineData({
+                values: json.result.processing,
+                map: key => json.result.processing[key].status.closed.count,
                 isDate: true
             }),
             type: 'line',

@@ -21,11 +21,7 @@ const computeDuration = doc =>
 const sum = arr => arr.reduce((sum, item) => sum + item, 0);
 const flatten = arr => arr.reduce((a, c) => [...a, ...c], []);
 
-const getEmptyStatData = () => ({
-  count: 0,
-  duration: 0,
-  // we store each duration to compute the real average duration based on all values
-  durations: [],
+const getEmptyStatusData = () => ({
   // we init each possible status
   status: Object.keys(DS_STATUSES).reduce(
     (statuses, status) => ({
@@ -35,6 +31,29 @@ const getEmptyStatData = () => ({
     {}
   )
 });
+
+const getEmptyStatData = () => ({
+  count: 0,
+  duration: 0,
+  // we store each duration to compute the real average duration based on all values
+  durations: [],
+  // we init each possible status
+  ...getEmptyStatusData()
+});
+
+const computeMonthlyProcessingStats = docs =>
+  docs.reduce((months, doc) => {
+    month = format(doc.dossier.created_at, "YYYY-MM");
+    if (doc.dossier.processed_at) {
+      month = format(doc.dossier.processed_at, "YYYY-MM");
+    }
+    if (!months[month]) {
+      months[month] = getEmptyStatusData();
+    }
+    months[month].count += 1;
+    months[month].status[doc.dossier.state].count += 1;
+    return months;
+  }, {});
 
 // compute daily stats for a set of docs
 const computeDailyStats = docs => {
@@ -119,7 +138,8 @@ const getStats = docs => {
   const totalStats = {
     ...computeTotalStats(monthlyStats),
     monthly: monthlyStats,
-    daily: dailyStats
+    daily: dailyStats,
+    processing: computeMonthlyProcessingStats(docs)
   };
   return totalStats;
 };

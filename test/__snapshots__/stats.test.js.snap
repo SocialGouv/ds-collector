@@ -504,6 +504,182 @@ Object {
       },
     },
   },
+  "processing": Object {
+    "2017-01": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 0,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 1,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 0,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 0,
+          "label": "Sans suite",
+        },
+      },
+    },
+    "2017-05": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 1,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 0,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 0,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 0,
+          "label": "Sans suite",
+        },
+      },
+    },
+    "2018-01": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 1,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 0,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 1,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 0,
+          "label": "Sans suite",
+        },
+      },
+    },
+    "2018-02": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 0,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 0,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 1,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 1,
+          "label": "Sans suite",
+        },
+      },
+    },
+    "2018-03": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 0,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 0,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 0,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 1,
+          "label": "Sans suite",
+        },
+      },
+    },
+    "2018-05": Object {
+      "count": NaN,
+      "status": Object {
+        "closed": Object {
+          "count": 3,
+          "label": "Accepté",
+        },
+        "draft": Object {
+          "count": 0,
+          "label": "Brouillon",
+        },
+        "initiated": Object {
+          "count": 0,
+          "label": "En construction",
+        },
+        "received": Object {
+          "count": 0,
+          "label": "En instruction",
+        },
+        "refused": Object {
+          "count": 0,
+          "label": "Refusé",
+        },
+        "without_continuation": Object {
+          "count": 0,
+          "label": "Sans suite",
+        },
+      },
+    },
+  },
   "status": Object {
     "closed": Object {
       "count": 5,
