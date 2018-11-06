@@ -53,7 +53,7 @@ const isOutDated = (date1, date2) => isBefore(parse(date1), parse(date2));
 // check if a local dossier needs update
 const updateDossierLocal = async ({ id, updated_at }) => {
   log.info(`ds-api: updateDossierLocal`);
-  const dossierLocal = await findOne({ "dossier.id": id });
+  const dossierLocal = await findOne({ "dossier.id": parseInt(id, 10) });
   if (!dossierLocal) {
     const dossierRemote = await fetchDossier(id);
     log.info(`ds-api: CREATE dossier ${id}`);
