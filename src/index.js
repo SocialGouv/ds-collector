@@ -215,8 +215,8 @@ app.get(
   "/stats",
   asyncMiddleware(async (req, res, next) => {
     log.info("GET /stats");
-    const sixMonthsAgo = format(subMonths(new Date(), 6));
-    const startDate = req.query.from || sixMonthsAgo;
+    const oneYearAgo = format(subMonths(new Date(), 12));
+    const startDate = req.query.from || oneYearAgo;
     const docs = await find(
       { "dossier.created_at": { $gte: startDate } },
       { "dossier.created_at": 1 }
