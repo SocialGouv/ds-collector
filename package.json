@@ -1,9 +1,10 @@
 {
   "name": "ds-collector",
   "version": "1.0.1",
-  "author": "Julien Bouquillon <julien.bouquillon@sg.social.gouv.fr>",
+  "author": "Incubateur des ministères sociaux <DSI-incubateur@sg.social.gouv.fr>",
   "license": "MIT",
   "main": "./src",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SocialGouv/ds-collector.git"
