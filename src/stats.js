@@ -146,9 +146,14 @@ const getStats = docs => {
 // aggregate docs by champ libelle
 const aggregate = (docs, libelle) =>
   docs.reduce((agg, doc) => {
-    const key = doc.dossier.champs.find(
+    const obj = doc.dossier.champs.find(
       champ => champ.type_de_champ.libelle === libelle
-    ).value;
+    );
+    if (!obj) {
+      console.log("ERROR: cant find champ libelle", libelle);
+      return agg;
+    }
+    const key = obj.value;
     if (!agg[key]) {
       agg[key] = 0;
     }
