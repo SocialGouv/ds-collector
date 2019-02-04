@@ -46,6 +46,12 @@ docker run -d \
 
 Une fois lancé, le service crée un fichier `./data/[DS_ID_PROCEDURE].nedb` qui contient les données.
 
+L'API peut alors être interrogée ainsi :
+
+```sh
+curl -H "Authorization: amfjkzefkjzefkjzem" http://127.0.0.1:3005/dump > dump.json
+```
+
 ## API
 
 Voir la doc openapi sur [socialgouv.github.io/ds-collector/](https://socialgouv.github.io/ds-collector/)
