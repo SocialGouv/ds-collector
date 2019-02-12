@@ -76,10 +76,10 @@ const clear = () =>
   );
 
 module.exports = {
-  insert,
+  clear,
+  dump,
   find,
   findOne,
-  dump,
-  clear,
+  insert,
   update
 };

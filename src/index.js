@@ -15,7 +15,7 @@ const tokenMiddleware = require("./tokenMiddleware");
 const asyncMiddleware = require("./asyncMiddleware");
 const openApiDoc = require("./openApiDoc");
 
-const isJson = req => req.headers["accept"] === "application/json";
+const isJson = req => req.headers.accept === "application/json";
 
 const app = express();
 app.use(favicon(path.join(__dirname, "..", "public", "static", "favicon.ico")));
@@ -44,9 +44,9 @@ app.get("/", (req, res, next) => {
   log.info("GET /");
   if (isJson(req)) {
     res.json({
+      NODE_ENV: process.env.NODE_ENV,
       success: true,
-      version: require("../package.json").version,
-      NODE_ENV: process.env.NODE_ENV
+      version: require("../package.json").version
     });
   }
   next();

@@ -2,10 +2,10 @@ const { format, differenceInDays } = require("date-fns");
 
 // https://github.com/betagouv/tps/blob/58ce66/app/serializers/dossier_serializer.rb#L38-L53
 const DS_STATUSES = {
+  closed: "Accepté",
   draft: "Brouillon",
   initiated: "En construction",
   received: "En instruction",
-  closed: "Accepté",
   refused: "Refusé",
   without_continuation: "Sans suite"
 };
@@ -136,8 +136,8 @@ const getStats = docs => {
   const monthlyStats = computeMonthlyStats(dailyStats);
   const totalStats = {
     ...computeTotalStats(monthlyStats),
-    monthly: monthlyStats,
     daily: dailyStats,
+    monthly: monthlyStats,
     processing: computeMonthlyProcessingStats(docs)
   };
   return totalStats;
@@ -157,6 +157,6 @@ const aggregate = (docs, libelle) =>
   }, {});
 
 module.exports = {
-  getStats,
-  aggregate
+  aggregate,
+  getStats
 };
