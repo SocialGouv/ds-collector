@@ -17,7 +17,7 @@ const DS_STATUSES_COMPLETED = ["closed", "refused", "without_continuation"];
 const computeDuration = doc =>
   differenceInDays(doc.dossier.updated_at, doc.dossier.created_at);
 
-const sum = arr => arr.reduce((sum, item) => sum + item, 0);
+const sum = arr => arr.reduce((acc, item) => acc + item, 0);
 const flatten = arr => arr.reduce((a, c) => [...a, ...c], []);
 
 const getEmptyStatusData = () => ({
@@ -56,18 +56,18 @@ const computeMonthlyProcessingStats = docs =>
 
 // compute daily stats for a set of docs
 const computeDailyStats = docs => {
-  const days = docs.reduce((days, doc) => {
+  const days = docs.reduce((memo, doc) => {
     const day = format(doc.dossier.created_at, "YYYY-MM-DD");
-    if (!days[day]) {
-      days[day] = getEmptyStatData();
+    if (!memo[day]) {
+      memo[day] = getEmptyStatData();
     }
-    days[day].count += 1;
-    days[day].status[doc.dossier.state].count += 1;
+    memo[day].count += 1;
+    memo[day].status[doc.dossier.state].count += 1;
     // compute duration for closed docs
     if (DS_STATUSES_COMPLETED.indexOf(doc.dossier.state) > -1) {
-      days[day].durations.push(computeDuration(doc));
+      memo[day].durations.push(computeDuration(doc));
     }
-    return days;
+    return memo;
   }, {});
   // compute avg duration
   Object.keys(days).forEach(day => {
@@ -80,21 +80,20 @@ const computeDailyStats = docs => {
 
 // aggregate daily data on a monthly basis
 const computeMonthlyStats = dailyStats => {
-  const months = Object.keys(dailyStats).reduce((months, day) => {
+  const months = Object.keys(dailyStats).reduce((memo, day) => {
     const month = format(day, "YYYY-MM");
-    if (!months[month]) {
-      months[month] = getEmptyStatData();
+    if (!memo[month]) {
+      memo[month] = getEmptyStatData();
     }
-    months[month].count += dailyStats[day].count;
-    months[month].durations = [
-      ...months[month].durations,
+    memo[month].count += dailyStats[day].count;
+    memo[month].durations = [
+      ...memo[month].durations,
       ...dailyStats[day].durations
     ];
     Object.keys(dailyStats[day].status).forEach(status => {
-      months[month].status[status].count +=
-        dailyStats[day].status[status].count;
+      memo[month].status[status].count += dailyStats[day].status[status].count;
     });
-    return months;
+    return memo;
   }, {});
   // compute avg duration
   Object.keys(months).forEach(month => {
