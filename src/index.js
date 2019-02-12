@@ -45,7 +45,7 @@ app.get("/", (req, res, next) => {
   if (isJson(req)) {
     res.json({
       success: true,
-      version: pkg.version,
+      version: require("../package.json").version,
       NODE_ENV: process.env.NODE_ENV
     });
   }
