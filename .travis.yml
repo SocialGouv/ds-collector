@@ -18,19 +18,20 @@ jobs:
       node_js: stable
       cache: yarn
       env:
-      - *github_keys
+        - *github_keys
       before_install:
-      - curl -o- -L https://yarnpkg.com/install.sh | bash
-      - export PATH="$HOME/.yarn/bin:$PATH"
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH="$HOME/.yarn/bin:$PATH"
       script:
-      - yarn lint
-      - DS_ID_PROCEDURE=tests yarn test --coverage
-      - yarn openapi
+        - yarn lint
+        - DS_ID_PROCEDURE=tests yarn test --coverage
+        - yarn openapi
+        - yarn build
       after_script:
-      - npx codecov
+        - npx codecov
       before_deploy:
-      - git config user.name "Social Groovy Bot"
-      - git config user.email "45039513+SocialGroovyBot@users.noreply.github.com"
+        - git config user.name "Social Groovy Bot"
+        - git config user.email "45039513+SocialGroovyBot@users.noreply.github.com"
       deploy:
         github-token: "$GITHUB_TOKEN"
         keep-history: true
@@ -49,15 +50,15 @@ jobs:
       if: type = push AND tag IS present
       name: Deploy latest image to Docker Hub
       env:
-      - *docker_keys
-      - DOCKER_IMAGE="socialgouv/ds-collector"
-      - CONTEXT=.
+        - *docker_keys
+        - DOCKER_IMAGE="socialgouv/ds-collector"
+        - CONTEXT=.
       script:
-      - docker pull $DOCKER_IMAGE
-      #
-      - docker build -t $DOCKER_IMAGE:$TRAVIS_BRANCH $CONTEXT
-      - docker build -t $DOCKER_IMAGE:latest $CONTEXT
-      #
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker push $DOCKER_IMAGE:$TRAVIS_BRANCH
-      - docker push $DOCKER_IMAGE:latest
+        - docker pull $DOCKER_IMAGE
+        #
+        - docker build -t $DOCKER_IMAGE:$TRAVIS_BRANCH $CONTEXT
+        - docker build -t $DOCKER_IMAGE:latest $CONTEXT
+        #
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push $DOCKER_IMAGE:$TRAVIS_BRANCH
+        - docker push $DOCKER_IMAGE:latest

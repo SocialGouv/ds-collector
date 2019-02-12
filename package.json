@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@socialgouv/eslint-config-recommended": "^0.5.0",
+    "@zeit/ncc": "^0.15.0",
     "eslint": "^5.13.0",
     "eslint-plugin-jest": "^22.2.2",
     "jest": "^23.4.2",
@@ -45,7 +46,8 @@
     ]
   },
   "scripts": {
-    "start": "node ./src",
+    "start": "node ./dist",
+    "build": "ncc build ./src",
     "lint": "eslint src test",
     "pretest": "rm data/test.nedb || true",
     "test": "jest --runInBand",
