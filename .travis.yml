@@ -1,0 +1,62 @@
+---
+dist: xenial
+language: minimal
+git:
+  depth: 5
+
+_environments:
+  - &github_keys
+    - secure: "Djx65rz2OjLcovPdtHVcdQ5hGdorA44XBW9RyfBWDHGKWWLOtWCGpM92LJu6mxJ+czu81LuTLhiUFN5djvnzgHxcN4tYjBiwIHdr7gaBrGIn1S+hyqV1m4rwB1D1kZCkmcXd1BFtIlQmoKXXx6YylXITZ2dYPprXA3n8BlSPgGf8yQFqJHjBdAv6Ulo2dVVCO61SXbcxV9M3Y0yVtI9t0l3LUonth9i+/OpE8EH6cVDpSYF6gtxOWZ9Pfe+YeBm3AwBLNEiuuZIg1i59181jDiTllB3cOPI5cNrFYKIhUYhpPzjj2SYoUy4SxV5YbNRT1lQBi0EEKTL83j/MknjBwIBn8hlEB4t8G5dvfhGZpGV3apsyEhwBkIRp/o+Ctw52JHqHVu6/PaTrzxpWLpAOhUgm6i4FvgiqysxW+yCXZTYRo4ib5pgCP98Vau2N54JE/zLWsUQ2nCWpQ6jBTaN1+Kou5ZWYOy+3i2bT3wGGbI2PNYr0RpqnI5Sn6koLrQpaTUk+Pz8mF7XPdOCSN8zXjzOgttdnV1SmCzWWbzrvhYA4sCELP03ZSECq0JEGW+V+8VAouCNgcUlwwll9d/nfEMRDHSbZUezMMq99Hyoe7SPTrW+WRJo9BFUi0d/3JxS1oKcH4JnvQ7lAjw0ut9n/9u4KCYdV0Mmvob2yL4DXXCU="
+  - &docker_keys
+    - secure: "F7D5ktnP/mkywOBpeBoZcgSLRKVJiJ3PFFvLHaN76UyuqImOn3d6U0u0sescdIeEeRu/hsNwGJt8lzr9FhGX58LMYWOvUxdOE/Jwmi5QaXcfK4RzWab07jmo3XVj9WLLLbCIql8M6RlPPXO63je02Rwus5mKIe7aJ5L5/s5DBNVesvJPXNpcB6cCV8FtNO2Z6JvuSBE2YvBeJxvYAn66SSCes9FE1ZOTrZbUVNaD636LjPvUHeNaMxKQ/cjc8e7dPH8twte+qFznFctBiUJxc4QwboI49z9G4xl/wsZdyHp7sZ109IFiWwInMJn/Y0waWvlLhxwIS66EkJi5EnJmJ7MCC2/zwR5yFe3NdMaD4g7t5iXhalYjSicxkakMoX3hKE1izg4Oqtr05W5kxHmfpzd/QGg1BkKuGoiujQnrbOCQzcvQNDxMWttKVMD71N5/tCbowX2PHlTTlpV35vjUy1/hHviCNh707AEcPhJ3sTjzb6B/R2WiuP17C8wMu3sPpan1jqb6kMKUfggTZc4ZhmKQUCv5Ex1YEyfEMCyhwl+VbLeovnWCBAmueLSsfbQ22LHvDSLeXj78lmHD7daVM1kD++jnO4OpMYGjGF3hDej1iApjCjOq0Kp+hQWK991FW7kOOy/vd/kvBkgrGC8J23FnmBCx7wxpv/yLpbuM928="
+    - secure: "X+zzxTWfW4TE/c9YS0OZnf0pkCiI8eTckx8XgdQSmlnCWwAJuVJFt4uMQHszym8GpXlXHd9f6rKzBBbwe8e88xOjw1nySue/9EVseKZM/Su9h4/olVEhTFylldbaTLiGs2tc+IyXf4LWpQBZIW9xwLX/RbPZcg/k5/H+NOEztEwotS2BYsyMsh+4esQQxOSlQ9vlkCACVgCcz8CFE6/xLX593FTjB+zX2GvOhj76I5jMcbr2ijAkhwFD8etfqjD9addGCRf2sHbsJ/uiDa45nxbQK1PGPQQCJKWiYAZf/7Muh1IQuSgpgekEdgLu6I2ovjrxPJ8S1eG8mf/dAP7STWMlSdRRptHj6BtPDN8+dZHCdhW86G+raucUazL4grRHZ6Dxx27eJj27jBibBQksXIhvCZ4fC9zSiiGNjBVp6vEAj1PLtsUs1xf+ZHPgNchUuKPuBAJGYjf+Y5pZxx6O+q1fT/yGWeH1SdKrbhOo3GlACiAewQ2b4cM0KmaoQgmPTDuf4Fifr9XeQ+T+/hRBUxTSJyUHoSDJ/232RghtWiOBEvpzFCzp0i9v4I7TgqX4b7mQTno84lfNntLQ6H7iJH0if3n1TEoPE8uO9xU/+OGb931PGsSKUyuaywd4IpDTOkN28kYIZYiqJaKa+tzPRBe0dQcAO+4Fnwv4QS4lBmg="
+
+jobs:
+  include:
+    - stage: Build
+      language: node_js
+      node_js: stable
+      cache: yarn
+      env:
+      - *github_keys
+      before_install:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash
+      - export PATH="$HOME/.yarn/bin:$PATH"
+      script:
+      - DS_ID_PROCEDURE=tests yarn test --coverage
+      - yarn openapi
+      after_script:
+      - npx codecov
+      before_deploy:
+      - git config user.name "Social Groovy Bot"
+      - git config user.email "45039513+SocialGroovyBot@users.noreply.github.com"
+      deploy:
+        github-token: "$GITHUB_TOKEN"
+        keep-history: true
+        local_dir: doc
+        provider: pages
+        skip_cleanup: true
+        target-branch: gh-pages
+        on:
+          branch: master
+
+    #
+    #
+    #
+
+    - stage: Deploy
+      if: type = push AND tag IS present
+      name: Deploy latest image to Docker Hub
+      env:
+      - *docker_keys
+      - DOCKER_IMAGE="socialgouv/ds-collector"
+      - CONTEXT=.
+      script:
+      - docker pull $DOCKER_IMAGE
+      #
+      - docker build -t $DOCKER_IMAGE:$TRAVIS_BRANCH $CONTEXT
+      - docker build -t $DOCKER_IMAGE:latest $CONTEXT
+      #
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker push $DOCKER_IMAGE:$TRAVIS_BRANCH
+      - docker push $DOCKER_IMAGE:latest
