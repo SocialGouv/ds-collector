@@ -12,6 +12,7 @@ const getOpenApiDoc = () => {
 module.exports = getOpenApiDoc;
 
 if (require.main === module) {
-  // eslint-disable-next-line no-console
+  /* eslint-disable no-console */
+  // tslint:disable-next-line no-console
   console.log(JSON.stringify(getOpenApiDoc(), null, 2));
 }

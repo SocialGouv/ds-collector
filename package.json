@@ -27,26 +27,23 @@
   },
   "devDependencies": {
     "@socialgouv/eslint-config-recommended": "^0.5.0",
+    "@socialgouv/tslint-config-recommended": "^0.5.1",
+    "@types/jest": "^24.0.1",
+    "@types/node": "^11.9.2",
+    "@types/node-fetch": "^2.1.6",
     "eslint": "^5.13.0",
     "eslint-plugin-jest": "^22.2.2",
     "jest": "^23.4.2",
     "jest-cli": "^23.4.2",
     "jest-fetch-mock": "^1.6.5",
-    "prettier": "^1.16.4"
-  },
-  "jest": {
-    "verbose": true,
-    "collectCoverageFrom": [
-      "src/*.js"
-    ],
-    "testEnvironment": "node",
-    "setupFiles": [
-      "./setupJest.js"
-    ]
+    "prettier": "^1.16.4",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
   },
   "scripts": {
     "start": "node ./src",
-    "lint": "eslint src test",
+    "lint": "eslint src test && tslint -p tsconfig.json -t stylish",
     "pretest": "rm data/test.nedb || true",
     "test": "jest --runInBand",
     "openapi": "node ./src/openApiDoc > ./doc/api-docs.json"
