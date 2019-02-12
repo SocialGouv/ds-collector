@@ -26,23 +26,27 @@
     "swagger-jsdoc": "^3.0.2"
   },
   "devDependencies": {
-    "eslint": "^5.2.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-jest": "^21.21.0",
-    "eslint-plugin-prettier": "^2.6.2",
+    "@socialgouv/eslint-config-recommended": "^0.5.0",
+    "eslint": "^5.13.0",
+    "eslint-plugin-jest": "^22.2.2",
     "jest": "^23.4.2",
     "jest-cli": "^23.4.2",
     "jest-fetch-mock": "^1.6.5",
-    "prettier": "^1.14.0"
+    "prettier": "^1.16.4"
   },
   "jest": {
     "verbose": true,
-    "collectCoverageFrom": ["src/*.js"],
+    "collectCoverageFrom": [
+      "src/*.js"
+    ],
     "testEnvironment": "node",
-    "setupFiles": ["./setupJest.js"]
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   },
   "scripts": {
     "start": "node ./src",
+    "lint": "eslint src test",
     "pretest": "rm data/test.nedb || true",
     "test": "jest --runInBand",
     "openapi": "node ./src/openApiDoc > ./doc/api-docs.json"

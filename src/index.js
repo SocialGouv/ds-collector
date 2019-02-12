@@ -7,7 +7,7 @@ const cors = require("cors");
 const { format, subMonths } = require("date-fns");
 
 const log = require("./log");
-const { find, insert, dump } = require("./db");
+const { find } = require("./db");
 const { getStats, aggregate } = require("./stats");
 const { rescan } = require("./ds-api");
 const webhookHandler = require("./webhookHandler");
@@ -45,7 +45,7 @@ app.get("/", (req, res, next) => {
   if (isJson(req)) {
     res.json({
       success: true,
-      version: pkg.version,
+      version: require("../package.json").version,
       NODE_ENV: process.env.NODE_ENV
     });
   }
@@ -180,7 +180,7 @@ app.use("/", express.static("./public"));
  */
 app.post(
   "/webhook",
-  asyncMiddleware(async (req, res, next) => {
+  asyncMiddleware(async (req, res) => {
     log.info("POST /webhook", req.body);
     const result = await webhookHandler(req.body);
     res.json({ success: true, result });
@@ -213,7 +213,7 @@ app.post(
  */
 app.get(
   "/stats",
-  asyncMiddleware(async (req, res, next) => {
+  asyncMiddleware(async (req, res) => {
     log.info("GET /stats");
     const oneYearAgo = format(subMonths(new Date(), 12));
     const startDate = req.query.from || oneYearAgo;
@@ -246,7 +246,7 @@ app.use(tokenMiddleware);
  */
 app.get(
   "/rescan",
-  asyncMiddleware(async (req, res, next) => {
+  asyncMiddleware(async (req, res) => {
     log.info("GET /rescan");
     const result = await rescan();
     res.json({ success: true, result: result.length });
@@ -291,7 +291,7 @@ app.get(
  */
 app.get(
   "/aggregate",
-  asyncMiddleware(async (req, res, next) => {
+  asyncMiddleware(async (req, res) => {
     log.info("GET /aggregate");
     const docs = await find(
       req.query.filters ? JSON.parse(req.query.filters) : {},
@@ -333,7 +333,7 @@ app.get(
  */
 app.get(
   "/dump",
-  asyncMiddleware(async (req, res, next) => {
+  asyncMiddleware(async (req, res) => {
     log.info("GET /dump");
     log.debug(req.query);
     const docs = await find(

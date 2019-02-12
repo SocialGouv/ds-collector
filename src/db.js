@@ -1,6 +1,5 @@
 //@flow
 const Datastore = require("nedb");
-const { differenceInDays, format } = require("date-fns");
 
 const log = require("./log");
 

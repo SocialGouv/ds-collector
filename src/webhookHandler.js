@@ -1,8 +1,6 @@
 // @flow
 
-const { insert, findOne, update } = require("./db");
 const { updateDossierLocal } = require("./ds-api");
-const log = require("./log");
 
 /*::
 
@@ -23,8 +21,8 @@ type WebhookResult = {
 const webhookHandler = async (
   payload /*: WebhookInput */
 ) /*: Promise<WebhookResult> */ => {
-  const { procedure_id, dossier_id, state, updated_at } = payload;
-  const updated = await updateDossierLocal({
+  const { dossier_id, updated_at } = payload;
+  await updateDossierLocal({
     id: dossier_id,
     updated_at
   });

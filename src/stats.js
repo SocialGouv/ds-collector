@@ -1,4 +1,3 @@
-const get = require("lodash.get");
 const { format, differenceInDays } = require("date-fns");
 
 // https://github.com/betagouv/tps/blob/58ce66/app/serializers/dossier_serializer.rb#L38-L53
@@ -43,7 +42,7 @@ const getEmptyStatData = () => ({
 
 const computeMonthlyProcessingStats = docs =>
   docs.reduce((months, doc) => {
-    month = format(doc.dossier.created_at, "YYYY-MM");
+    let month = format(doc.dossier.created_at, "YYYY-MM");
     if (doc.dossier.processed_at) {
       month = format(doc.dossier.processed_at, "YYYY-MM");
     }

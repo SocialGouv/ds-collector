@@ -82,7 +82,7 @@ describe("webhookHandler", () => {
       "dossier.id": 456
     });
     expect(exists).toBeNull();
-    const ins = await insert(SAMPLE_DOSSIER);
+    await insert(SAMPLE_DOSSIER);
     const created1 = await findOne({
       "dossier.id": 456
     });
@@ -102,7 +102,7 @@ describe("webhookHandler", () => {
       "dossier.id": 789
     });
     expect(exists).toBeNull();
-    const ins = await insert(SAMPLE_DOSSIER_OUTDATED);
+    await insert(SAMPLE_DOSSIER_OUTDATED);
     const exists2 = await findOne({
       "dossier.id": 789
     });
