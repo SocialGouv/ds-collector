@@ -1,4 +1,3 @@
-const get = require("lodash.get");
 const { format, differenceInDays } = require("date-fns");
 
 // https://github.com/betagouv/tps/blob/58ce66/app/serializers/dossier_serializer.rb#L38-L53
