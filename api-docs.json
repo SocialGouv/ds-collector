@@ -1,0 +1,344 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://api-demo.ds-collector.com"
+    }
+  ],
+  "info": {
+    "title": "ds-collector API",
+    "version": "1.0.1",
+    "description": "Documentation de l'API ds-collector. Les paramètres `filters` et `sort` suivent l'API [NeDB](https://github.com/louischatriot/nedb)."
+  },
+  "basePath": "/",
+  "paths": {
+    "/webhook": {
+      "post": {
+        "summary": "DS webhook endpoint",
+        "description": "receives the webhook payload",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/WebhookInput"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stats": {
+      "get": {
+        "summary": "fetch global stats",
+        "description": "return total and aggregated data for daily, monthly usage stats..",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "description": "return stats for dossiers starting from this date.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2017-01-01"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rescan": {
+      "get": {
+        "description": "rescan and fetch missing dossiers from DS API",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aggregate": {
+      "get": {
+        "summary": "get aggregated stats for a given champ libelle",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "description": "filters to apply to the query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "{%22dossier.created_at%22:{%22$gte%22:%222018-05-01%22}}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "sort to apply to the query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "{%22dossier.created_at%22:1}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "libelle",
+            "description": "libelle of the field to aggregate",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Nationalité"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AggregateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dump": {
+      "get": {
+        "description": "dump all dossiers data",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "description": "filters to apply to the query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "{%22dossier.created_at%22:{%22$gte%22:%222018-05-01%22}}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "sort to apply to the query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "{%22dossier.created_at%22:1}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "WebhookInput": {
+        "description": "A JSON object containing webhook input data",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/WebhookInput"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "WebhookInput": {
+        "description": "webhook input data",
+        "type": "object",
+        "properties": {
+          "procedure_id": {
+            "type": "number",
+            "example": 4212
+          },
+          "dossier_id": {
+            "type": "number",
+            "example": 2873
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "brouillon",
+              "en_construction",
+              "en_instruction",
+              "accepte",
+              "refuse",
+              "sans_suite"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-01-01T09:00:00Z"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "description": "réponse générique",
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "array"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      },
+      "AggregateResponse": {
+        "description": "réponse de /aggregate",
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "result": {
+            "type": "object",
+            "description": "total par libéllé",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "libéllé"
+              },
+              "value": {
+                "type": "number",
+                "description": "nombre total"
+              }
+            }
+          }
+        }
+      },
+      "BasicStatResult": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "nombre total de dossiers"
+          },
+          "duration": {
+            "type": "number",
+            "description": "durée moyenne de traitement"
+          },
+          "status": {
+            "type": "object",
+            "description": "total par statut"
+          }
+        }
+      },
+      "StatResult": {
+        "description": "renvoie un object avec `{[date]: StatResult}`",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "the date key",
+            "example": "2018-05-20 or 2018-05"
+          },
+          "value": {
+            "$ref": "#/components/schemas/BasicStatResult"
+          }
+        }
+      },
+      "StatsResult": {
+        "summary": "données de /stats",
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "nombre total de dossiers"
+          },
+          "duration": {
+            "type": "number",
+            "description": "durée moyenne de traitement"
+          },
+          "status": {
+            "type": "object",
+            "description": "total par statut"
+          },
+          "daily": {
+            "description": "détail par jour",
+            "$ref": "#/components/schemas/StatResult"
+          },
+          "monthly": {
+            "description": "détail par mois",
+            "$ref": "#/components/schemas/StatResult"
+          }
+        }
+      },
+      "StatsResponse": {
+        "description": "réponse de /stats",
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/StatsResult"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
