@@ -1,4 +1,7 @@
-# ds-collector [![CircleCI](https://circleci.com/gh/SocialGouv/ds-collector.svg?style=svg)](https://circleci.com/gh/SocialGouv/ds-collector)
+# ds-collector 
+
+[![Build Status](https://travis-ci.com/SocialGouv/ds-collector.svg?branch=master)](https://travis-ci.com/SocialGouv/ds-collector)
+[![codecov](https://codecov.io/gh/SocialGouv/ds-collector/branch/master/graph/badge.svg)](https://codecov.io/gh/SocialGouv/ds-collector)
 
 service autonome qui :
 
