@@ -146,14 +146,14 @@ describe("ds-api", () => {
   describe("rescan", () => {
     it("should fetch all unknown dossiers", async () => {
       fetch.mockResponse(JSON.stringify(fakeDossiers2pages));
-      const res = await rescan();
+      await rescan();
       expect(fetch.mock.calls.length).toEqual(12);
     });
     it("should NOT fetch existing and updated dossiers", async () => {
       await insert(SAMPLE_DOSSIER_UPDATED1);
       await insert(SAMPLE_DOSSIER_UPDATED2);
       fetch.mockResponse(JSON.stringify(fakeDossiers2pages));
-      const res = await rescan();
+      await rescan();
       expect(fetch.mock.calls.length).toEqual(8);
     });
   });
