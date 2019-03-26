@@ -151,7 +151,7 @@ const aggregate = (docs, libelle) =>
       champ => champ.type_de_champ.libelle === libelle
     );
     if (!obj) {
-      console.log("ERROR: cant find champ libelle", libelle);
+      console.log("ERROR: cant find champ libelle", libelle); // eslint-disable-line no-console
       return agg;
     }
     const key = obj.value;
