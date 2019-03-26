@@ -10,6 +10,8 @@ const SAMPLE_DOSSIERS = [
       id: 1,
       created_at: "2018-05-17T12:00:21.005Z",
       updated_at: "2018-06-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "closed",
       champs: [
         {
@@ -26,6 +28,8 @@ const SAMPLE_DOSSIERS = [
       id: 2,
       created_at: "2018-02-12T12:00:21.005Z",
       updated_at: "2018-03-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "refused",
       champs: [
         {
@@ -42,6 +46,8 @@ const SAMPLE_DOSSIERS = [
       id: 3,
       created_at: "2018-01-17T12:00:21.005Z",
       updated_at: "2018-02-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "closed",
       champs: [
         {
@@ -58,6 +64,8 @@ const SAMPLE_DOSSIERS = [
       id: 4,
       created_at: "2018-01-17T12:00:21.005Z",
       updated_at: "2018-04-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "refused",
       champs: [
         {
@@ -74,6 +82,8 @@ const SAMPLE_DOSSIERS = [
       id: 5,
       created_at: "2018-05-01T12:00:21.005Z",
       updated_at: "2018-06-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "closed",
       champs: [
         {
@@ -90,6 +100,8 @@ const SAMPLE_DOSSIERS = [
       id: 6,
       created_at: "2018-05-02T12:00:21.005Z",
       updated_at: "2018-07-10T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "closed",
       champs: [
         {
@@ -106,6 +118,8 @@ const SAMPLE_DOSSIERS = [
       id: 7,
       created_at: "2018-02-21T12:00:21.005Z",
       updated_at: "2018-03-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "without_continuation",
       champs: [
         {
@@ -122,6 +136,8 @@ const SAMPLE_DOSSIERS = [
       id: 8,
       created_at: "2018-03-27T12:00:21.005Z",
       updated_at: "2018-04-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "without_continuation",
       champs: [
         {
@@ -138,6 +154,8 @@ const SAMPLE_DOSSIERS = [
       id: 9,
       created_at: "2017-01-17T12:00:21.005Z",
       updated_at: "2017-02-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "draft",
       champs: [
         {
@@ -154,6 +172,8 @@ const SAMPLE_DOSSIERS = [
       id: 10,
       created_at: "2017-05-07T12:00:21.005Z",
       updated_at: "2018-07-09T13:43:59.462Z",
+      processed_at: "2008-09-01T10:05:00.000Z",
+      initiated_at: "2008-05-01T10:05:00.000Z",
       state: "closed",
       champs: [
         {

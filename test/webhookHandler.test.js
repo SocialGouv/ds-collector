@@ -14,6 +14,7 @@ const SAMPLE_DOSSIER = {
     nom_projet: "Projet 12345",
     description: "Ma super description 12345",
     created_at: "2008-09-01T08:05:00.000Z",
+    processed_at: "2008-09-01T10:05:00.000Z",
     updated_at: "2008-09-01T08:05:00.000Z"
   }
 };
@@ -24,6 +25,7 @@ const SAMPLE_DOSSIER_UPDATED = {
     nom_projet: "Projet 12345",
     description: "Ma super description 12345",
     created_at: "2018-09-01T08:05:00.000Z",
+    processed_at: "2008-09-01T10:05:00.000Z",
     updated_at: "2018-09-01T08:05:00.000Z"
   }
 };
@@ -34,6 +36,7 @@ const SAMPLE_DOSSIER_OUTDATED = {
     nom_projet: "Projet 12345",
     description: "Ma super description 12345",
     created_at: "2008-09-01T08:05:00.000Z",
+    processed_at: "2008-09-01T10:05:00.000Z",
     updated_at: "2008-09-01T08:05:00.000Z"
   }
 };

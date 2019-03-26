@@ -48,23 +48,33 @@ const fakeDossiers2pages = {
   dossiers: [
     {
       id: 1,
-      updated_at: "2008-09-01T08:05:00.000Z"
+      updated_at: "2008-09-01T08:05:00.000Z",
+      processed_at: "2008-03-01T10:05:00.000Z",
+      initiated_at: "2008-02-01T10:05:00.000Z"
     },
     {
       id: 2,
-      updated_at: "2018-09-01T08:05:00.000Z"
+      updated_at: "2018-09-01T08:05:00.000Z",
+      processed_at: "2008-03-01T10:05:00.000Z",
+      initiated_at: "2008-02-01T10:05:00.000Z"
     },
     {
       id: 3,
-      updated_at: "2018-09-01T08:05:00.000Z"
+      updated_at: "2018-09-01T08:05:00.000Z",
+      processed_at: "2008-03-01T10:05:00.000Z",
+      initiated_at: "2008-02-01T10:05:00.000Z"
     },
     {
       id: 4,
-      updated_at: "2008-09-01T08:05:00.000Z"
+      updated_at: "2008-09-01T08:05:00.000Z",
+      processed_at: "2008-03-01T10:05:00.000Z",
+      initiated_at: "2008-02-01T10:05:00.000Z"
     },
     {
       id: 5,
-      updated_at: "2018-09-01T08:05:00.000Z"
+      updated_at: "2018-09-01T08:05:00.000Z",
+      processed_at: "2008-03-01T10:05:00.000Z",
+      initiated_at: "2008-02-01T10:05:00.000Z"
     }
   ]
 };
@@ -72,14 +82,18 @@ const fakeDossiers2pages = {
 const SAMPLE_DOSSIER_UPDATED1 = {
   dossier: {
     id: 2,
-    updated_at: "2018-09-01T08:05:00.000Z"
+    updated_at: "2018-09-01T08:05:00.000Z",
+    processed_at: "2008-03-01T10:05:00.000Z",
+    initiated_at: "2008-02-01T10:05:00.000Z"
   }
 };
 
 const SAMPLE_DOSSIER_UPDATED2 = {
   dossier: {
     id: 5,
-    updated_at: "2018-12-01T08:05:00.000Z"
+    updated_at: "2018-12-01T08:05:00.000Z",
+    processed_at: "2008-03-01T10:05:00.000Z",
+    initiated_at: "2008-02-01T10:05:00.000Z"
   }
 };
 

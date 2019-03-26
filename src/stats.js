@@ -15,13 +15,14 @@ const DS_STATUSES_COMPLETED = ["closed", "refused", "without_continuation"];
 
 // compute some dossier duration in days
 const computeDuration = doc =>
-  differenceInDays(doc.dossier.updated_at, doc.dossier.created_at);
+  differenceInDays(doc.dossier.processed_at, doc.dossier.initiated_at);
 
 const sum = arr => arr.reduce((sum, item) => sum + item, 0);
 const flatten = arr => arr.reduce((a, c) => [...a, ...c], []);
 
 const getEmptyStatusData = () => ({
   // we init each possible status
+  count: 0,
   status: Object.keys(DS_STATUSES).reduce(
     (statuses, status) => ({
       ...statuses,
