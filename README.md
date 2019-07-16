@@ -11,6 +11,8 @@ service autonome qui :
 - fournit une [API](https://socialgouv.github.io/ds-collector/) pour récupérer des informations sur les dossiers
 - fournit une UI minimale pour consulter les statistiques
 
+Si vous avez beaucoup de démarches à récupérer, regardez du côté du projet [ds-aggregator](https://github.com/SocialGouv/ds-aggregator)
+
 ![screenshot stats](./ds-collector.png)
 
 ## Usage
