@@ -19,7 +19,7 @@
     "express": "^4.16.3",
     "lodash.get": "^4.4.2",
     "nedb": "^1.8.0",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.1",
     "pino": "^4.17.6",
     "promise-serial-exec": "^1.0.0",
     "serve-favicon": "^2.5.0",
