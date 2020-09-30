@@ -48,6 +48,11 @@
   resolved "https://registry.npmjs.org/@types/jest/-/jest-23.3.1.tgz#a4319aedb071d478e6f407d1c4578ec8156829cf"
   integrity sha512-/UMY+2GkOZ27Vrc51pqC5J8SPd39FKt7kkoGAtWJ8s4msj0b15KehDWIiJpWY3/7tLxBQLLzJhIBhnEsXdzpgw==
 
+"@zeit/ncc@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.npmjs.org/@zeit/ncc/-/ncc-0.15.0.tgz#0f91f7ba5886044081d543ead2ad4ea0c6e45115"
+  integrity sha512-t64mbGZyC5QXqT3ws4NYzg+CX1DSNVelCgJgBithoKrkCVVKoHJ9dMDeGfeIrbvAwEwax0sP/ay+Pndl+T8o7g==
+
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
